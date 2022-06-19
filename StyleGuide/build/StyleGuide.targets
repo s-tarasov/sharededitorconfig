@@ -1,0 +1,32 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<!-- По умоланию кладем конфиг в директорию проекта -->
+		<EditorConfigDirectory Condition="'$(EditorConfigDirectory)' == ''">$(ProjectDir)</EditorConfigDirectory>
+	</PropertyGroup>
+
+	<Target Name="EditorConfigTraceTarget" BeforeTargets="Build" Condition="'$(EditorConfigTrace)' == 'enable'">
+		<Message Text="EditorConfigDirectory = $(EditorConfigDirectory)" Importance="High"/>
+		<Message Text="EditorConfigOverride = $(EditorConfigOverride)" Condition="'$(EditorConfigOverride)' == ''" Importance="High"/>
+	</Target>
+
+	<!-- Если нет override.editorconfig копируем конфиг как есть -->
+	<Target Name="CopyEditorconfig" Condition="'$(EditorConfigOverride)' == ''" BeforeTargets="Build">
+		<ItemGroup>
+			<EditorConfigFile Include="$(MSBuildThisFileDirectory)..\content\.editorconfig"/>
+		</ItemGroup>
+		<Copy SourceFiles="@(EditorConfigFile)" DestinationFolder="$(EditorConfigDirectory)" SkipUnchangedFiles="true" />
+	</Target>
+
+	<!-- Если есть override.editorconfig копируем конфиг и добавляем к нему строки из override.editorconfig -->
+	<Target Name="JoinEditorconfig" Condition="'$(EditorConfigOverride)' != ''" BeforeTargets="Build">
+		<ItemGroup Condition="">
+			<EditorConfigFilesToJoin Include="
+             $(MSBuildThisFileDirectory)..\content\.editorconfig;
+             $(EditorConfigOverride)"/>
+		</ItemGroup>
+		<ItemGroup>
+			<EditorConfigFileContents Include="$([System.IO.File]::ReadAllText(%(EditorConfigFilesToJoin.Identity)))"/>
+		</ItemGroup>
+		<WriteLinesToFile File="$(EditorConfigDirectory).editorconfig" Lines="@(EditorConfigFileContents)" Overwrite="true" WriteOnlyWhenDifferent="true" />
+	</Target>
+</Project>

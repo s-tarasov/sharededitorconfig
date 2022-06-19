@@ -1,0 +1,9 @@
+{
+  "solution": {
+    "path": "SharedPackages.sln",
+    "projects": [
+      "StyleGuideIntegrationTests\\StyleGuideIntegrationTests.csproj",
+      "StyleGuide\\StyleGuide.csproj"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+    <VersionPrefix>0.0.0</VersionPrefix>
+	<NoDefaultExcludes>true</NoDefaultExcludes>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)../artifacts</PackageOutputPath>
+    
+  </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <VersionSuffix>pre$([System.DateTime]::UtcNow.ToString(yyyyMMdd-HHmm))</VersionSuffix>
+    </PropertyGroup>
+
+
+   <ItemGroup>
+    <Content Include=".editorconfig" Pack="true" />
+	<Content Include="build\StyleGuide.props" PackagePath="build\StyleGuide.props" />
+    <Content Include="build\StyleGuide.targets" PackagePath="build\StyleGuide.targets" />
+  </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435" />
+    </ItemGroup>
+
+</Project>
