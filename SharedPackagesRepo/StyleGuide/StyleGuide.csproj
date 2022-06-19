@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+	<Version>0.0.0</Version>
+	<NoDefaultExcludes>true</NoDefaultExcludes>
+	<IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\.editorconfig" Pack="true" />
+	<Content Include="build\StyleGuide.targets" PackagePath="build\StyleGuide.targets" />
+  </ItemGroup>
+
+</Project>
