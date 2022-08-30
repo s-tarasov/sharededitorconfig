@@ -20,11 +20,6 @@ namespace StyleGuideIntegrationTests.StyleTests
         {
             if (true) return;
         }
-
-        public void Method2()
-        {
-            if (true) { return; }
-        }
     }
 }
 ",
@@ -37,14 +32,6 @@ namespace StyleGuideIntegrationTests.StyleTests
         {
             if (true)
                 return;
-        }
-
-        public void Method2()
-        {
-            if (true)
-            {
-                return;
-            }
         }
     }
 }
@@ -67,7 +54,9 @@ namespace StyleGuideIntegrationTests.StyleTests
         public void Method2()
         {
             if (true)
+            {
               return;
+            }  
         }
     }
 }

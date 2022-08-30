@@ -13,10 +13,14 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <VersionSuffix>pre$([System.DateTime]::UtcNow.ToString(yyyyMMdd-HHmm))</VersionSuffix>
     </PropertyGroup>
+    <ItemGroup>
+      <None Remove="StyleCop.globalconfig" />
+    </ItemGroup>
 
 
    <ItemGroup>
     <Content Include=".editorconfig" Pack="true" />
+    <Content Include="StyleCop.globalconfig" Pack="true" />
 	<Content Include="build\StyleGuide.props" PackagePath="build\StyleGuide.props" />
     <Content Include="build\StyleGuide.targets" PackagePath="build\StyleGuide.targets" />
   </ItemGroup>

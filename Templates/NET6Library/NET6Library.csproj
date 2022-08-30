@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleGuide" Version="0.0.0-pre20220828-1857">
+    <PackageReference Include="StyleGuide" Version="0.0.0-pre20220830-2033">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

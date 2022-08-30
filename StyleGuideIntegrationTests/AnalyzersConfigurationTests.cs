@@ -1,6 +1,7 @@
 ﻿using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
+using StyleGuideIntegrationTests.Infrastructure;
 using Xunit.Abstractions;
 using static StyleGuideIntegrationTests.Infrastructure.CurrentProject;
 
@@ -16,30 +17,19 @@ namespace StyleGuideIntegrationTests
         }
 
         [Fact]
-        public async Task AllAnalyzersHaveExcplicitConfiguration() 
+        public async Task ZeroNotConfiguredAnalyzers() 
         {
-            var instance = MSBuildLocator.RegisterDefaults();
-            using var workspace = MSBuildWorkspace.Create();
-            workspace.WorkspaceFailed += (o, e) => _output.WriteLine(e.Diagnostic.Message);
-            var project = await workspace.OpenProjectAsync(Path.Combine(SolutionDirectory, "StyleGuide", "StyleGuide.csproj"));
-           
+            string projectFilePath = Path.Combine(SolutionDirectory, "StyleGuide", "StyleGuide.csproj");
+            var diagnosticDescriptors = await AnalyzerInspector.GetAnalyzersAsync(projectFilePath);
 
-            // Get all analyzers in the project
-            var diagnosticDescriptors = project.AnalyzerReferences
-                .SelectMany(analyzerReference => analyzerReference.GetAnalyzers(LanguageNames.CSharp))
-                .SelectMany(analyzer => analyzer.SupportedDiagnostics)
-                .Distinct()
-                .OrderBy(x => x.Id)
-                .ToList();
-
-            _output.WriteLine($"Total {diagnosticDescriptors.Count} diagnostics found!");
+            _output.WriteLine($"Total {diagnosticDescriptors.Length} diagnostics found!");
 
             var diagnosticsConfigurations = File
-                .ReadLines(Path.Combine(SolutionDirectory, "StyleGuide", ".editorconfig"))
+                .ReadLines(Path.Combine(SolutionDirectory, "StyleGuide", "StyleCop.globalconfig"))
                 .Where(l => l.StartsWith("dotnet_diagnostic"))
                 .ToArray();
 
-            _output.WriteLine("Missing diagnostics");
+            _output.WriteLine("Add to analyzer config these lines:");
 
             var notConfiguredDiagnosticCount = 0;
             foreach (var diagnosticDescriptor in diagnosticDescriptors)
@@ -49,11 +39,16 @@ namespace StyleGuideIntegrationTests
                     if (diagnosticDescriptor.IsEnabledByDefault)
                     {
                         notConfiguredDiagnosticCount++;
-                        _output.WriteLine($"{diagnosticDescriptor.Id,-15} {diagnosticDescriptor.Title}");
+                        _output.WriteLine(ToEditorConfigDisableRule(diagnosticDescriptor));
                     }
             }
 
             Assert.Equal(0, notConfiguredDiagnosticCount);
+        }
+
+        private static string ToEditorConfigDisableRule(DiagnosticDescriptor diagnosticDescriptor)
+        {
+            return $"# {diagnosticDescriptor.Id}: {diagnosticDescriptor.Title}\r\ndotnet_diagnostic.{diagnosticDescriptor.Id}.severity = none\r\n";
         }
     }
 }
