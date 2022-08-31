@@ -11,13 +11,7 @@ namespace StyleGuideIntegrationTests.StyleTests
         [Fact]
         public void EmptyFile_AlwaysValid() => Run(new StyleTestCase
         {
-            FileContent = @"namespace Tests
-{
-    public class ClassExample
-    {
-    }
-}
-"
+            FileContent = MembersToFile("")
         });
     }
 

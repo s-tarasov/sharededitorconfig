@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.props" Condition="Exists('..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.props')" />
+  <Import Project="..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.props" Condition="Exists('..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -50,6 +50,7 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="packages.config" />
+    <None Include="StyleGuide.globalconfig" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.Unstable.1.2.0.435\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
@@ -60,8 +61,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.props'))" />
-    <Error Condition="!Exists('..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.targets'))" />
+    <Error Condition="!Exists('..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.props'))" />
+    <Error Condition="!Exists('..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.targets'))" />
   </Target>
-  <Import Project="..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.targets" Condition="Exists('..\..\packages\StyleGuide.0.0.0-pre20220828-1501\build\StyleGuide.targets')" />
+  <Import Project="..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.targets" Condition="Exists('..\..\packages\StyleGuide.0.0.0-pre20220831-1038\build\StyleGuide.targets')" />
 </Project>

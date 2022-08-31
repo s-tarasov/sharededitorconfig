@@ -25,7 +25,7 @@ namespace StyleGuideIntegrationTests
             _output.WriteLine($"Total {diagnosticDescriptors.Length} diagnostics found!");
 
             var diagnosticsConfigurations = File
-                .ReadLines(Path.Combine(SolutionDirectory, "StyleGuide", "StyleCop.globalconfig"))
+                .ReadLines(Path.Combine(SolutionDirectory, "StyleGuide", "StyleGuide.globalconfig"))
                 .Where(l => l.StartsWith("dotnet_diagnostic"))
                 .ToArray();
 

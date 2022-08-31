@@ -1,5 +1,10 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    </PropertyGroup>
+    
     <ItemGroup>
-        <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)..\content\StyleCop.globalconfig" />
+        <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)..\content\StyleGuide.globalconfig" />
     </ItemGroup>
 </Project>

@@ -13,26 +13,25 @@ namespace StyleGuideIntegrationTests.StyleTests
         public CodeStyleTestBase(ITestOutputHelper output)
         {
             _dotnet = new(output);
-            _project = Templates.NET6Library;
+            _project = CurrentProject.Name switch 
+            {
+                "StyleGuideIntegrationTests" => Templates.NET6Library,
+                "StyleGuideNet48IntegrationTests" => Templates.Net48ModernLibrary,
+                _ => throw new ArgumentOutOfRangeException(nameof(CurrentProject.Name), CurrentProject.Name, "Unsupported Project")
+            };
         }
 
         private protected void Run(StyleTestCase testCase)
         {
+            ArgumentNullException.ThrowIfNull(testCase.FileContent);
+
             Assert.Equal(0, ExecuteUpdatePackage().ExitCode);
 
             WriteFileContent(testCase.FileContent);
 
             var buildResult = ExecuteBuild();
 
-            // Finished success.
-            Assert.Equal(0, buildResult.ExitCode);
-            if (testCase.Warnings?.Length > 0)
-            {
-                foreach (var warning in testCase.Warnings)
-                    Assert.Contains(buildResult.OutputLines, l => l.Contains(" warning") && l.Contains(warning));
-            }
-            else
-                Assert.DoesNotContain(buildResult.OutputLines, l => l.Contains(" warning"));
+            AssertBuildResult(testCase, buildResult);
 
             if (!string.IsNullOrEmpty(testCase.FormattedFileContent))
             {
@@ -41,6 +40,39 @@ namespace StyleGuideIntegrationTests.StyleTests
                 Assert.Contains(testCase.FormattedFileContent, GetFileContent());
             }
         }
+
+        private static void AssertBuildResult(StyleTestCase testCase, CommandResult buildResult)
+        {
+            if (testCase.Errors?.Length > 0)
+            {
+                // Build error.
+                Assert.Equal(1, buildResult.ExitCode);
+
+                foreach (var error in testCase.Errors)
+                    Assert.Contains(buildResult.OutputLines, l => l.Contains(" error") && l.Contains(error));
+            }
+            else
+            {
+                // Build success.
+                Assert.Equal(0, buildResult.ExitCode);
+            }
+
+            if (testCase.Warnings?.Length > 0)
+            {
+                foreach (var warning in testCase.Warnings)
+                    Assert.Contains(buildResult.OutputLines, l => l.Contains(" warning") && l.Contains(warning));
+            }
+            else
+                Assert.DoesNotContain(buildResult.OutputLines, l => l.Contains(" warning"));
+        }
+
+        protected string MembersToFile(string members) => @"namespace Tests
+{
+    public class ClassExample
+    {" + members + @"
+    }
+}
+";
 
         private CommandResult ExecuteBuild() => _dotnet.Execute($@"build {_project.ProjectFullPath}");
 
@@ -57,5 +89,6 @@ namespace StyleGuideIntegrationTests.StyleTests
         public string? FileContent { get; internal set; }
         public string[]? Warnings { get; internal set; }
         public string? FormattedFileContent { get; internal set; }
+        public string[]? Errors { get; internal set; }
     }
 }

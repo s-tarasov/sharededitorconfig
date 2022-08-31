@@ -12,30 +12,18 @@ namespace StyleGuideIntegrationTests.StyleTests
         [Fact]
         public void EmptyLinesAndBraces() => Run(new StyleTestCase
         {
-            FileContent = @"namespace Tests
-{
-    public class ClassExample
-    {
+            FileContent = MembersToFile(@"
         public int Method() 
         {
             
             return 1;
-        }
-    }
-}
-",
+        }"),
             Warnings = new[] { "SA1505: An opening brace should not be followed by a blank line" },
-            FormattedFileContent = @"namespace Tests
-{
-    public class ClassExample
-    {
+            FormattedFileContent = MembersToFile(@"
         public int Method()
         {
             return 1;
-        }
-    }
-}
-"
+        }")
         });
     }
 
