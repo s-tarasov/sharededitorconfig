@@ -33,15 +33,15 @@ namespace StyleGuideIntegrationTests.StyleTests
         public void Method1()
         {
             if (true)
-              return;
+                return;
         }
 
         public void Method2()
         {
             if (true)
             {
-              return;
-            }  
+                return;
+            }
         }")
         });
     }

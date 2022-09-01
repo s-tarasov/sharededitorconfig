@@ -15,7 +15,7 @@ namespace StyleGuideIntegrationTests.StyleTests
         private string a = """";
 
         public string A => a;"),
-            Errors = new[] { "IDE1006: Naming rule violation: Missing prefix: '_'" }
+            Warnings = new[] { "IDE1006: Naming rule violation: Missing prefix: '_'" }
         });
 
         [Fact]

@@ -13,9 +13,9 @@ namespace StyleGuideIntegrationTests.StyleTests
         public void EmptyLinesAndBraces() => Run(new StyleTestCase
         {
             FileContent = MembersToFile(@"
-        public int Method() 
+        public int Method()
         {
-            
+
             return 1;
         }"),
             Warnings = new[] { "SA1505: An opening brace should not be followed by a blank line" },
